@@ -22,17 +22,23 @@ class _LoginScreenState extends State<LoginScreen> {
         width: double.infinity,
         // color: AppColor.secondaryColor.withOpacity(0.3),
         decoration: BoxDecoration(
-            color: AppColor.black.withOpacity(0.3),
+            color: AppColor.white.withOpacity(0.1),
           image: const DecorationImage(image: AssetImage(Assets.imagesBg),fit: BoxFit.fill)
         ),
         child: Container(
           margin: EdgeInsets.only(
-              top: height * 0.15, left: width * 0.06, right: width * 0.06,bottom:  height * 0.15,),
+              top: height * 0.25, left: width * 0.06, right: width * 0.06,bottom:  height * 0.15,),
           padding: const EdgeInsets.all(35),
           decoration: BoxDecoration(
-              color: AppColor.white,
-
-              borderRadius: BorderRadius.circular(20)
+              // color: AppColor.white,
+              // boxShadow:  [
+              //   BoxShadow(
+              //     color:AppColor.primaryColor, //New
+              //     blurRadius: 2,
+              //     spreadRadius: 1
+              //   )
+              // ],
+              // borderRadius: BorderRadius.circular(20)
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

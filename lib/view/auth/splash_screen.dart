@@ -1,6 +1,9 @@
 import 'package:fc_news/generated/assets.dart';
 import 'package:fc_news/res/color-const.dart';
+import 'package:fc_news/utils/routes/routes_name.dart';
+import 'package:fc_news/view_model/services/splash_services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,15 +13,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // SplashServices splashServices = SplashServices();
+  SplashServices splashServices = SplashServices();
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   final splashServices =
-    //   Provider.of<SplashServices>(context, listen: false);
-    //   splashServices.updateApkApi(context);
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+       Future.delayed(const Duration(seconds: 3),(){
+         Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
+       });
+
+      // final splashServices = Provider.of<SplashServices>(context, listen: false);
+      // splashServices.checkAuthentication(context);
+    });
 
   }
 
