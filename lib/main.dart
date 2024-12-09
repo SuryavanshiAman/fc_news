@@ -28,12 +28,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: AppConstants.appName,
         initialRoute: RoutesName.splashScreen,
-        onGenerateRoute: (settings) {
+        onGenerateRoute: (RouteSettings settings) {
+          final routeName = settings.name;
           if (settings.name != null) {
-            return MaterialPageRoute(
-              builder: Routers.generateRoute(settings.name!),
-              settings: settings,
-            );
+            return Routers.generateRoute(routeName.toString());
           }
           return null;
         },

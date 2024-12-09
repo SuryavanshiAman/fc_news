@@ -4,7 +4,10 @@ class Assets {
 
   static const String iconCountryCode = 'assets/icon/country_code.png';
   static const String imagesBg = 'assets/images/bg.png';
+  static const String imagesEmail = 'assets/images/email.png';
+  static const String imagesLogin = 'assets/images/login.png';
   static const String imagesLogo = 'assets/images/logo.png';
+  static const String imagesPerson = 'assets/images/person.png';
   static const String imagesSplash = 'assets/images/splash.gif';
 
 }
