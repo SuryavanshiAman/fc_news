@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String fontsNewYork = 'fonts/new_york.ttf';
+  static const String fontsNunito = 'fonts/nunito.ttf';
   static const String iconCountryCode = 'assets/icon/country_code.png';
   static const String imagesBg = 'assets/images/bg.png';
   static const String imagesEmail = 'assets/images/email.png';
