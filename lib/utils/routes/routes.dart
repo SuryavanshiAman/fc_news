@@ -87,6 +87,8 @@
 //     );
 //   }
 // }
+import 'package:fc_news/view/bottom_nav_bar.dart';
+import 'package:fc_news/view/home/view_news_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fc_news/view/auth/login_screen.dart';
 import 'package:fc_news/view/auth/otp_screen.dart';
@@ -108,6 +110,10 @@ class Routers {
         return _customPageRoute(const RegisterScreen());
       case RoutesName.homeScreen:
         return _customPageRoute(const HomeScreen());
+      case RoutesName.bottomNavBarPage:
+        return _customPageRoute(const BottomNavBarPage());
+      case RoutesName.viewNewsScreen:
+        return _customPageRoute(const ViewNewsScreen());
       default:
         return _customPageRoute(
           Scaffold(

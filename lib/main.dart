@@ -1,3 +1,4 @@
+import 'package:fc_news/controller/home_controller.dart';
 import 'package:fc_news/res/app_constant.dart';
 import 'package:fc_news/utils/routes/routes.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => SplashServices()),
         ChangeNotifierProvider(create: (_) => UserViewModel()),
+        ChangeNotifierProvider(create: (_) => HomeController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

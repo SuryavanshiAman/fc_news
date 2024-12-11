@@ -140,13 +140,13 @@ class _CustomCarouselState extends State<CustomCarousel> {
     itemCount: carouselItems.length,
       options: CarouselOptions(
         height: height*0.27,
-        viewportFraction: 0.88, // Show part of the next slide
+        viewportFraction: 0.9, // Show part of the next slide
         initialPage: 0,
         enableInfiniteScroll: true,
         autoPlay: true,
         autoPlayInterval: const Duration(seconds: 3),
         enlargeCenterPage: true,
-        enlargeFactor: 0.15,
+        enlargeFactor: 0.2,
         scrollPhysics: const BouncingScrollPhysics(),
         onPageChanged: (index, reason) {
           setState(() {
@@ -158,7 +158,7 @@ class _CustomCarouselState extends State<CustomCarousel> {
         return Align(
           alignment: Alignment.centerLeft, // Push items left
           child: Container(
-            width: width * 0.7,
+            width: width * 0.9,
             margin: const EdgeInsets.only(right: 12), // Create spacing for the next image
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
