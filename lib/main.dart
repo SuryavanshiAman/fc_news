@@ -30,15 +30,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: AppConstants.appName,
-        // initialRoute: RoutesName.splashScreen,
-        // onGenerateRoute: (RouteSettings settings) {
-        //   final routeName = settings.name;
-        //   if (settings.name != null) {
-        //     return Routers.generateRoute(routeName.toString());
-        //   }
-        //   return null;
-        // },
-        home:  BalloonScreen(),
+        initialRoute: RoutesName.splashScreen,
+        onGenerateRoute: (RouteSettings settings) {
+          final routeName = settings.name;
+          if (settings.name != null) {
+            return Routers.generateRoute(routeName.toString());
+          }
+          return null;
+        },
+        // home:  BalloonScreen(),
       ),
     );
   }
