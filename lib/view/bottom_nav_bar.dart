@@ -163,6 +163,7 @@ import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/view/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'save/save_screen.dart';
 import 'search/search_screen.dart';
 
 
@@ -195,7 +196,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
     final List<Widget> bottomBarPages = [
       const HomeScreen(),
       const SearchScreen(),
-      const HomeScreen(),
+      const SaveScreen(),
       const HomeScreen(),
     ];
     return Scaffold(

@@ -1,131 +1,31 @@
 import 'package:fc_news/controller/home_controller.dart';
-import 'package:fc_news/generated/assets.dart';
 import 'package:fc_news/main.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
-import 'package:fc_news/view/home/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class SaveScreen extends StatefulWidget {
+  const SaveScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SaveScreen> createState() => _SaveScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SaveScreenState extends State<SaveScreen> {
   @override
   Widget build(BuildContext context) {
     final homeController = Provider.of<HomeController>(context);
+
     return Scaffold(
+      backgroundColor: AppColor.white,
       appBar: AppBar(
-        leading: Image.asset(Assets.imagesLogo),
-        leadingWidth: width * 0.3,
-        actions: [
-          Container(
-              height: height * 0.05,
-              width: width * 0.12,
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.secondaryColor],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight)),
-              child: Stack(
-                children: [
-                  const Center(
-                    child: Icon(
-                      Icons.notifications_outlined,
-                      color: AppColor.white,
-                    ),
-                  ),
-                  Positioned(
-                    left: width*0.061,
-                      top: height*0.01,
-                      child: CircleAvatar(
-                    radius: 4,
-                    backgroundColor: AppColor.yellow,
-                  ))
-                ],
-              ))
-        ],
+        foregroundColor: AppColor.white,
+        backgroundColor: AppColor.white,
+        title: const Text("Save News",style: TextStyle(fontFamily: "NewYork",fontWeight: FontWeight.w600),),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(15),
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Latest News",
-                style: TextStyle(
-                    color: AppColor.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'NewYork'),
-              ),
-              const Text(
-                "See All",
-                style: TextStyle(
-                  color: AppColor.blue,
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          CustomCarousel(),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          SizedBox(
-            height: height * 0.062,
-            child: ListView.builder(
-                itemCount: homeController.categories.length,
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      homeController.setIndex(index);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.all(5),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        gradient: homeController.selectedIndex == index
-                            ? const LinearGradient(
-                                colors: [
-                                    AppColor.primaryColor,
-                                    AppColor.secondaryColor
-                                  ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight)
-                            : null,
-                        borderRadius: BorderRadius.circular(20),
-                        border: homeController.selectedIndex != index
-                            ? Border.all(color: AppColor.gray.withOpacity(0.2))
-                            : null,
-                      ),
-                      child: Text(
-                        homeController.categories[index],
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: "Nunito",
-                            color: homeController.selectedIndex == index
-                                ? AppColor.white
-                                : AppColor.black),
-                      ),
-                    ),
-                  );
-                }),
-          ),
           ListView.builder(
             itemCount: homeController.newsItems.length,
             scrollDirection: Axis.vertical,
@@ -142,8 +42,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: const EdgeInsets.all(8.0),
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
+                    color: AppColor.white,
+                    boxShadow:  [
+                      BoxShadow(
+                          color:  AppColor.gray, //New
+                          blurRadius: 2.0,
+                          spreadRadius: 0.1
+                      )
+                    ],
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColor.gray.withOpacity(0.3)),
+                    border: Border.all(color: AppColor.gray.withOpacity(0.2)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,11 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           Container(
                             height: 60,
                             width: 100,
-                            // color: AppColor.black,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: NetworkImage(homeController
-                                            .newsItems[index]["image"] ??
+                                        .newsItems[index]["image"] ??
                                         ""))),
                           ),
                         ],
