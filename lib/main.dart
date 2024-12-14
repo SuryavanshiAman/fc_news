@@ -1,6 +1,6 @@
 import 'package:fc_news/controller/home_controller.dart';
 import 'package:fc_news/res/app_constant.dart';
-import 'package:fc_news/test.dart';
+import '../../balloon/lib/view/test.dart';
 import 'package:fc_news/utils/routes/routes.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
 import 'package:fc_news/view/auth/login_screen.dart';

@@ -161,6 +161,7 @@ import 'dart:math';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/view/home/home_screen.dart';
+import 'package:fc_news/view/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'save/save_screen.dart';
@@ -197,7 +198,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
       const HomeScreen(),
       const SearchScreen(),
       const SaveScreen(),
-      const HomeScreen(),
+      const ProfileScreen(),
     ];
     return Scaffold(
       body: PageView(
@@ -216,13 +217,6 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
         maxLine: 1,
         shadowElevation: 0,
         kBottomRadius: 2.0,
-
-        // notchShader: const SweepGradient(
-        //   startAngle: 2,
-        //   endAngle: pi / 1,
-        //   colors: [AppColor.primaryColor,AppColor.secondaryColor,AppColor.primaryColor,],
-        //   tileMode: TileMode.mirror,
-        // ).createShader(Rect.fromCircle(center: Offset.zero, radius: 8.0)),
         notchColor:AppColor.primaryColor,
 
         /// restart app if you change removeMargins

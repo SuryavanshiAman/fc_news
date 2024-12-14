@@ -8,6 +8,7 @@ class RoutesName{
   static const String bottomNavBarPage = '/bottomNavBarPage';
   static const String viewNewsScreen = '/viewNewsScreen';
   static const String saveScreen = '/saveScreen';
+  static const String profileScreen = '/profileScreen';
 
 
 }

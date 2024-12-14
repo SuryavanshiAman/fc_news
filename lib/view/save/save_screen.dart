@@ -20,8 +20,8 @@ class _SaveScreenState extends State<SaveScreen> {
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
-        foregroundColor: AppColor.white,
-        backgroundColor: AppColor.white,
+        // foregroundColor: AppColor.white,
+        // backgroundColor: AppColor.white,
         title: const Text("Save News",style: TextStyle(fontFamily: "NewYork",fontWeight: FontWeight.w600),),
       ),
       body: ListView(
