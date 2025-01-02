@@ -4,7 +4,11 @@ class Assets {
 
   static const String fontsNewYork = 'fonts/new_york.ttf';
   static const String fontsNunito = 'fonts/nunito.ttf';
+  static const String iconAboutUs = 'assets/icon/about_us.png';
   static const String iconCountryCode = 'assets/icon/country_code.png';
+  static const String iconLogout = 'assets/icon/logout.png';
+  static const String iconPolicy = 'assets/icon/policy.png';
+  static const String iconTerms = 'assets/icon/terms.png';
   static const String imagesBalloon = 'assets/images/balloon.png';
   static const String imagesBg = 'assets/images/bg.png';
   static const String imagesBlasat = 'assets/images/blasat.gif';

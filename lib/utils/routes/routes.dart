@@ -88,8 +88,12 @@
 //   }
 // }
 import 'package:fc_news/view/bottom_nav_bar.dart';
+import 'package:fc_news/view/home/notification_screen.dart';
 import 'package:fc_news/view/home/view_news_screen.dart';
+import 'package:fc_news/view/profile/about_us_screen.dart';
+import 'package:fc_news/view/profile/policy_screen.dart';
 import 'package:fc_news/view/profile/profile_screen.dart';
+import 'package:fc_news/view/profile/terms_condition_screen.dart';
 import 'package:fc_news/view/save/save_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fc_news/view/auth/login_screen.dart';
@@ -120,9 +124,18 @@ class Routers {
         return _customPageRoute(const SaveScreen());
       case RoutesName.profileScreen:
         return _customPageRoute(const ProfileScreen());
+      case RoutesName.aboutUsScreen:
+        return _customPageRoute(const AboutUs());
+      case RoutesName.policyScreen:
+        return _customPageRoute(const PolicyScreen());
+        case RoutesName.termsScreen:
+      return _customPageRoute(const TermsConditionScreen());
+      case RoutesName.notificationScreen:
+        return _customPageRoute(const NotificationScreen());
+
       default:
         return _customPageRoute(
-          Scaffold(
+          const Scaffold(
             body: Center(
               child: Text(
                 'No Route Found!',

@@ -5,6 +5,7 @@ import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
 import 'package:fc_news/view/home/slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +16,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Future<void> shareContent(String heading, String description, String videoUrl) async {
+    await FlutterShare.share(
+      title: heading,
+      text: '$heading\n$description\n\nWatch the video: $videoUrl',
+      // linkUrl: videoUrl,  // You can optionally share the video URL too
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final homeController = Provider.of<HomeController>(context);
@@ -34,19 +42,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       end: Alignment.bottomRight)),
               child: Stack(
                 children: [
-                  const Center(
-                    child: Icon(
-                      Icons.notifications_outlined,
-                      color: AppColor.white,
+                  Center(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, RoutesName.notificationScreen);
+                      },
+                      child: const Icon(
+                        Icons.notifications_outlined,
+                        color: AppColor.white,
+                      ),
                     ),
                   ),
                   Positioned(
-                    left: width*0.061,
-                      top: height*0.01,
+                      left: width * 0.061,
+                      top: height * 0.01,
                       child: CircleAvatar(
-                    radius: 4,
-                    backgroundColor: AppColor.yellow,
-                  ))
+                        radius: 4,
+                        backgroundColor: AppColor.yellow,
+                      ))
                 ],
               ))
         ],
@@ -132,10 +146,16 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
+              final data = homeController.newsItems[index];
               return GestureDetector(
                 onTap: () {
                   homeController.setIndex(index);
-                  Navigator.pushNamed(context, RoutesName.viewNewsScreen);
+                  Navigator.pushNamed(context, RoutesName.viewNewsScreen,
+                      arguments: {
+                        'heading': data['heading'],
+                        'description': data['description'],
+                        'video': data['videoUrl'],
+                      });
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -181,7 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     homeController.savedIndices.contains(index)
                                         ? Icons.bookmark
                                         : Icons.bookmark_border,
-                                    color: homeController.savedIndices.contains(index)
+                                    color: homeController.savedIndices
+                                            .contains(index)
                                         ? AppColor.secondaryColor
                                         : AppColor.gray,
                                   )),
@@ -197,10 +218,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Column(
                             children: [
-                              Icon(
-                                Icons.share,
-                                color: AppColor.gray,
+                              InkWell(
+                                onTap: () {
+                                  shareContent(
+                                    data['heading']!,
+                                    data['description']!,
+                                    data['videoUrl']!,
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.share,
+                                  color: AppColor.gray,
+                                ),
                               ),
+                              // Icon(
+                              //   Icons.share,
+                              //   color: AppColor.gray,
+                              // ),
                               Text(
                                 'Share',
                                 style: TextStyle(

@@ -1,13 +1,13 @@
 import 'package:fc_news/controller/home_controller.dart';
 import 'package:fc_news/res/app_constant.dart';
-import '../../balloon/lib/view/test.dart';
 import 'package:fc_news/utils/routes/routes.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
-import 'package:fc_news/view/auth/login_screen.dart';
 import 'package:fc_news/view_model/services/splash_services.dart';
 import 'package:fc_news/view_model/user_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'controller/profile_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SplashServices()),
         ChangeNotifierProvider(create: (_) => UserViewModel()),
         ChangeNotifierProvider(create: (_) => HomeController()),
+        ChangeNotifierProvider(create: (_) => ProfileController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
