@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:fc_news/generated/assets.dart';
 import 'package:fc_news/main.dart';
+import 'package:fc_news/model/register_model.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/res/custom_container.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
@@ -15,8 +16,9 @@ import 'package:flutter/material.dart';
 import '../../res/pinput/pinput.dart';
 
 class VerifyPage extends StatefulWidget {
+  final String? arguments;
   const VerifyPage({
-    super.key,
+    super.key,required this.arguments
   });
 
   @override
@@ -59,11 +61,8 @@ class _VerifyPageState extends State<VerifyPage> {
   @override
   Widget build(BuildContext context) {
     // final verifyOtpApi = Provider.of<AuthViewModel>(context);
-    // Map<String, dynamic> arguments =
-    // ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    // String phone = arguments["phone"].toString();
-    // String userID = arguments["userID"].toString();
-
+    // String argument = ModalRoute.of(context)!.settings.arguments.toString();
+    // print(argument);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -91,8 +90,8 @@ class _VerifyPageState extends State<VerifyPage> {
               ),
               Row(
                 children: [
-                  const Text(
-                    'Enter OTP sent to 7458946942',
+                   Text(
+                    'Enter OTP sent to ${widget.arguments}',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   InkWell(
@@ -205,14 +204,21 @@ class _VerifyPageState extends State<VerifyPage> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16),
                 ),
-                onTap: (){
+                onTap: ()async{
                   if(otpCon.text.isEmpty){
                     showCustomSnackbar(context, "Please enter OTP.", ContentType.warning);
                   }else if(otpCon.text.length !=4){
                     showCustomSnackbar(context, "Please enter proper OTP.", ContentType.warning);
                   }else{
-                   Navigator.pushNamed(context, RoutesName.bottomNavBarPage);
-                    showCustomSnackbar(context, "OTP Verified Successfully.", ContentType.success);
+                    Data? existingUser = await DBHelper().getUserByUsername(widget.arguments.toString());
+                    if (existingUser != null) {
+                      Navigator.pushNamed(context, RoutesName.bottomNavBarPage);
+                      showCustomSnackbar(context, "OTP Verified Successfully.", ContentType.success);
+                    } else {
+                      // Show an error message or pop-up because user doesn't exist
+                      showCustomSnackbar(context, "No account found with this phone number.", ContentType.warning);
+                    }
+
                   }                },
               ),
             ],

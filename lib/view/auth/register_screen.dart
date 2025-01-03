@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:fc_news/generated/assets.dart';
 import 'package:fc_news/main.dart';
+import 'package:fc_news/model/register_model.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/res/custom_container.dart';
 import 'package:fc_news/res/custom_text_field.dart';
@@ -20,7 +21,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController(); 
   final TextEditingController _phoneController = TextEditingController(); 
-  final TextEditingController _emailController = TextEditingController(); 
+  // final TextEditingController _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,7 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     color: AppColor.white,
                     fontWeight: FontWeight.w500,
                     fontSize: 16),),
-                onTap: (){
+                onTap: ()async{
                   if(_nameController.text.isEmpty){
                     showCustomSnackbar(context, "Please enter your name", ContentType.warning);
                   } else if(_phoneController.text.isEmpty){
@@ -180,6 +181,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }else if(_phoneController.text.length !=10){
                     showCustomSnackbar(context, "Please enter proper Phone no.", ContentType.warning);
                   }else{
+                    Data user = Data(userName: _nameController.text, number: _phoneController.text);
+                    await DBHelper().insertUser(user);
+                    int count = await DBHelper().getUserCount();
+                    print("Total users in the database: $count");
+                    Navigator.pushNamed(context, RoutesName.bottomNavBarPage);
                     showCustomSnackbar(context, "Register Successfully.", ContentType.success);
                   }
                 },

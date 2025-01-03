@@ -1,12 +1,12 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:fc_news/generated/assets.dart';
 import 'package:fc_news/main.dart';
+import 'package:fc_news/model/register_model.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/res/custom_container.dart';
 import 'package:fc_news/res/custom_text_field.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
 import 'package:fc_news/utils/toast.dart';
-import 'package:fc_news/view/auth/otp_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +34,10 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(Assets.imagesLogin,scale: 1.5,),
+              Image.asset(
+                Assets.imagesLogin,
+                scale: 1.5,
+              ),
               Center(
                 child: Text(
                   "Sign in",
@@ -58,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: height * 0.01,
               ),
-               Text(
+              Text(
                 "Phone no.",
                 style: TextStyle(
                     color: AppColor.black,
@@ -96,8 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               RichText(
                 textAlign: TextAlign.center,
-                text:
-                TextSpan(
+                text: TextSpan(
                   style: const TextStyle(fontSize: 14, color: Colors.black),
                   children: [
                     TextSpan(
@@ -117,15 +119,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation, secondaryAnimation) => const RegisterScreen(),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const RegisterScreen(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
                                 const begin = Offset(1.0, 0.0); // Right to left
                                 const end = Offset.zero;
                                 const curve = Curves.easeInOut;
 
-                                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                var tween = Tween(begin: begin, end: end)
+                                    .chain(CurveTween(curve: curve));
                                 var offsetAnimation = animation.drive(tween);
-                                return SlideTransition(position: offsetAnimation, child: child);
+                                return SlideTransition(
+                                    position: offsetAnimation, child: child);
                               },
                               transitionDuration: const Duration(seconds: 1),
                             ),
@@ -158,31 +165,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16),
                 ),
-                onTap: (){
+                onTap: () {
+                  if (_phoneController.text.isEmpty) {
+                    showCustomSnackbar(
+                        context, "Please enter Phone no.", ContentType.warning);
+                  } else if (_phoneController.text.length != 10) {
+                    showCustomSnackbar(context, "Please enter proper Phone no.",
+                        ContentType.warning);
+                  } else {
 
-                  if(_phoneController.text.isEmpty){
-showCustomSnackbar(context, "Please enter Phone no.", ContentType.warning);
-                  }else if(_phoneController.text.length !=10){
-                    showCustomSnackbar(context, "Please enter proper Phone no.", ContentType.warning);
-                  }else{
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) => const VerifyPage(),
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          const begin = Offset(1.0, 0.0); // Right to left
-                          const end = Offset.zero;
-                          const curve = Curves.easeInOut;
+                    Navigator.pushNamed(context, RoutesName.verifyPage,
+                        arguments: _phoneController.text);
+                    showCustomSnackbar(
+                        context, "OTP Send Successfully.", ContentType.success);
 
-                          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                          var offsetAnimation = animation.drive(tween);
-                          return SlideTransition(position: offsetAnimation, child: child);
-                        },
-                        transitionDuration: const Duration(seconds: 1),
-                      ),
-                    );
-                    showCustomSnackbar(context, "OTP Send Successfully.", ContentType.success);
-                  }                },
+                  }
+                },
               ),
               SizedBox(
                 height: height * 0.02,

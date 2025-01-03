@@ -104,14 +104,17 @@ import 'package:fc_news/view/home/home_screen.dart';
 import 'routes_name.dart';
 
 class Routers {
-  static Route<dynamic> generateRoute(String routeName) {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    final routeName = settings.name;
+    final arguments = settings.arguments;
     switch (routeName) {
       case RoutesName.splashScreen:
         return _customPageRoute(const SplashScreen());
       case RoutesName.loginScreen:
         return _customPageRoute(const LoginScreen());
       case RoutesName.verifyPage:
-        return _customPageRoute(const VerifyPage());
+        return _customPageRoute( VerifyPage(arguments:arguments.toString()
+        ));
       case RoutesName.registerScreen:
         return _customPageRoute(const RegisterScreen());
       case RoutesName.homeScreen:

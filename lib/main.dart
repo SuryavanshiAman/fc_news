@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (RouteSettings settings) {
           final routeName = settings.name;
           if (settings.name != null) {
-            return Routers.generateRoute(routeName.toString());
+            return Routers.generateRoute(settings);
           }
           return null;
         },
