@@ -210,7 +210,7 @@ class _VerifyPageState extends State<VerifyPage> {
                   }else if(otpCon.text.length !=4){
                     showCustomSnackbar(context, "Please enter proper OTP.", ContentType.warning);
                   }else{
-                    Data? existingUser = await DBHelper().getUserByUsername(widget.arguments.toString());
+                    Data? existingUser = await DBHelper().getUserByNumber(widget.arguments.toString());
                     if (existingUser != null) {
                       Navigator.pushNamed(context, RoutesName.bottomNavBarPage);
                       showCustomSnackbar(context, "OTP Verified Successfully.", ContentType.success);

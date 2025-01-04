@@ -20,7 +20,7 @@ class SplashServices with ChangeNotifier  {
         Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
       } else {
         await Future.delayed(const Duration(seconds: 3));
-        Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
+        Navigator.pushReplacementNamed(context, RoutesName.bottomNavBarPage);
       }
     }).onError((error, stackTrace) {
       if (kDebugMode) {
