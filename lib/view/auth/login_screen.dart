@@ -5,8 +5,10 @@ import 'package:fc_news/model/register_model.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/res/custom_container.dart';
 import 'package:fc_news/res/custom_text_field.dart';
+import 'package:fc_news/res/dialog.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
 import 'package:fc_news/utils/toast.dart';
+import 'package:fc_news/utils/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -173,9 +175,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     showCustomSnackbar(context, "Please enter proper Phone no.",
                         ContentType.warning);
                   } else {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false, // Prevent dismissing by tapping outside
 
-                    Navigator.pushNamed(context, RoutesName.verifyPage,
-                        arguments: _phoneController.text);
+                      builder: (BuildContext context) {
+                        return LodingDialog( msg:"OTP Send Successfully");
+                      },
+                    );
+                    Future.delayed(const Duration(seconds: 2),(){
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, RoutesName.verifyPage,
+                          arguments: _phoneController.text);
+                    });
+
                     showCustomSnackbar(
                         context, "OTP Send Successfully.", ContentType.success);
 
