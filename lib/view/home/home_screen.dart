@@ -16,11 +16,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   Future<void> shareContent(String heading, String description, String videoUrl) async {
     await FlutterShare.share(
       title: heading,
       text: '$heading\n$description\n\nWatch the video: $videoUrl',
-      // linkUrl: videoUrl,  // You can optionally share the video URL too
     );
   }
   @override
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         backgroundColor: AppColor.yellow,
                       ))
                 ],
-              ))
+              )),
         ],
       ),
       body: ListView(

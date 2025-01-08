@@ -49,6 +49,9 @@ dependencies:
   sqflite:
   intl:
   path_provider:
+  google_maps_flutter:
+  geolocator:
+#  location_picker_flutter_map:
 
 
 dev_dependencies:

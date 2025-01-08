@@ -190,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
 
                     showCustomSnackbar(
-                        context, "OTP Send Successfully.", ContentType.success);
+                        context, "Sending OTP.", ContentType.success);
 
                   }
                 },

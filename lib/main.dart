@@ -1,5 +1,6 @@
 import 'package:fc_news/controller/home_controller.dart';
 import 'package:fc_news/res/app_constant.dart';
+import 'package:fc_news/test.dart';
 import 'package:fc_news/utils/routes/routes.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
 import 'package:fc_news/view_model/services/splash_services.dart';
@@ -31,15 +32,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: AppConstants.appName,
-        initialRoute: RoutesName.splashScreen,
-        onGenerateRoute: (RouteSettings settings) {
-          final routeName = settings.name;
-          if (settings.name != null) {
-            return Routers.generateRoute(settings);
-          }
-          return null;
-        },
-        // home:  BalloonScreen(),
+        // initialRoute: RoutesName.splashScreen,
+        // onGenerateRoute: (RouteSettings settings) {
+        //   final routeName = settings.name;
+        //   if (settings.name != null) {
+        //     return Routers.generateRoute(settings);
+        //   }
+        //   return null;
+        // },
+        home:  MapScreen(),
       ),
     );
   }
