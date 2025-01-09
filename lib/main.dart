@@ -1,5 +1,6 @@
 import 'package:fc_news/controller/home_controller.dart';
 import 'package:fc_news/res/app_constant.dart';
+import 'package:fc_news/res/map/location.dart';
 import 'package:fc_news/test.dart';
 import 'package:fc_news/utils/routes/routes.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'controller/profile_controller.dart';
+import 'res/map/google_map_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,7 +42,8 @@ class MyApp extends StatelessWidget {
         //   }
         //   return null;
         // },
-        home:  MapScreen(),
+        home:  LocationScreen(),
+        // home:  GoogleMapScreen(),
       ),
     );
   }

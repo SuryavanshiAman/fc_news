@@ -51,6 +51,7 @@ dependencies:
   path_provider:
   google_maps_flutter:
   geolocator:
+  http:
 #  location_picker_flutter_map:
 
 
