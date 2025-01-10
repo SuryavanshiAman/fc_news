@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       barrierDismissible: false, // Prevent dismissing by tapping outside
 
                       builder: (BuildContext context) {
-                        return LodingDialog( msg:"OTP Send Successfully");
+                        return LodingDialog( msg:"Sending OTP...");
                       },
                     );
                     Future.delayed(const Duration(seconds: 2),(){
@@ -190,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
 
                     showCustomSnackbar(
-                        context, "Sending OTP.", ContentType.success);
+                        context, "Otp Send Successfully", ContentType.success);
 
                   }
                 },

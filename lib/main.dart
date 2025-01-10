@@ -34,15 +34,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: AppConstants.appName,
-        // initialRoute: RoutesName.splashScreen,
-        // onGenerateRoute: (RouteSettings settings) {
-        //   final routeName = settings.name;
-        //   if (settings.name != null) {
-        //     return Routers.generateRoute(settings);
-        //   }
-        //   return null;
-        // },
-        home:  LocationScreen(),
+        initialRoute: RoutesName.splashScreen,
+        onGenerateRoute: (RouteSettings settings) {
+          final routeName = settings.name;
+          if (settings.name != null) {
+            return Routers.generateRoute(settings);
+          }
+          return null;
+        },
+        // home:  LocationScreen(),
         // home:  GoogleMapScreen(),
       ),
     );

@@ -18,12 +18,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-       Future.delayed(const Duration(seconds: 3),(){
-         Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
-       });
+       // Future.delayed(const Duration(seconds: 3),(){
+       //   Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
+       // });
 
-      // final splashServices = Provider.of<SplashServices>(context, listen: false);
-      // splashServices.checkAuthentication(context);
+      final splashServices = Provider.of<SplashServices>(context, listen: false);
+      splashServices.checkAuthentication(context);
     });
 
   }

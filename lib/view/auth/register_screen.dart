@@ -186,6 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }else{
                     Data user = Data(userName: _nameController.text, number: _phoneController.text);
                     int id = await DBHelper().insertUser(user);
+
                     print("Inserted user ID: $id");
                     userPref.saveUser(id.toString());
                     int count = await DBHelper().getUserCount();

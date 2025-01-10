@@ -391,11 +391,13 @@
 // }
 ///
 import 'dart:convert';
+import 'package:fc_news/controller/profile_controller.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/res/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({Key? key}) : super(key: key);
@@ -405,40 +407,18 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchCurrentLocation();
+  }
   final TextEditingController searchCont = TextEditingController();
   List<dynamic> suggestions = [];
   bool isLoading = false;
 
   static const String googleApiKey = "AIzaSyCOqfJTgg1Blp1GIeh7o8W8PC1w5dDyhWI";
 
-  // Future<void> fetchSuggestions(String query) async {
-  //   if (query.isEmpty) return;
-  //
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //
-  //   final url =
-  //       "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$query&key=$googleApiKey&components=country:IN";
-  //   print("Aman:$url");
-  //   try {
-  //     final response = await http.get(Uri.parse(url));
-  //     if (response.statusCode == 200) {
-  //       final data = json.decode(response.body);
-  //       setState(() {
-  //         suggestions = data['predictions'];
-  //       });
-  //     } else {
-  //       throw Exception("Failed to load suggestions");
-  //     }
-  //   } catch (e) {
-  //     print("Error fetching suggestions: $e");
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
   Future<void> fetchSuggestions(String query) async {
     if (query.isEmpty) return;
 
@@ -463,6 +443,7 @@ class _LocationScreenState extends State<LocationScreen> {
           final details = await fetchPlaceDetailsForSuggestion(placeId);
           enrichedSuggestions.add({
             'description': suggestion['description'],
+            'place_id': placeId, // Add the place_id here
             'district': details['district'] ?? '',
             'pincode': details['pincode'] ?? '',
             'latitude': details['latitude'] ?? 0.0,
@@ -485,47 +466,6 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
-  // Future<void> fetchPlaceDetails(String placeId) async {
-  //   final url =
-  //       "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$googleApiKey";
-  //   print("QQQQ:$url");
-  //   try {
-  //     final response = await http.get(Uri.parse(url));
-  //     if (response.statusCode == 200) {
-  //       final data = json.decode(response.body);
-  //       final addressComponents = data['result']['address_components'];
-  //       final geometry = data['result']['geometry']['location'];
-  //
-  //       String district = '';
-  //       String pincode = '';
-  //       double latitude = geometry['lat'];
-  //       double longitude = geometry['lng'];
-  //
-  //       // Extract district and pincode
-  //       for (var component in addressComponents) {
-  //         if (component['types'].contains('administrative_area_level_2')) {
-  //           district = component['long_name'];
-  //         }
-  //         if (component['types'].contains('postal_code')) {
-  //           pincode = component['long_name'];
-  //         }
-  //       }
-  //
-  //       print("District: $district");
-  //       print("Pincode: $pincode");
-  //       print("Latitude: $latitude, Longitude: $longitude");
-  //
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //         content: Text(
-  //             "District: $district\nPincode: $pincode\nLatLng: ($latitude, $longitude)"),
-  //       ));
-  //     } else {
-  //       throw Exception("Failed to fetch place details");
-  //     }
-  //   } catch (e) {
-  //     print("Error fetching place details: $e");
-  //   }
-  // }
   Future<Map<String, dynamic>> fetchPlaceDetailsForSuggestion(String placeId) async {
     final url =
         "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$googleApiKey";
@@ -567,6 +507,7 @@ class _LocationScreenState extends State<LocationScreen> {
       return {};
     }
   }
+  String selectedLocation = "Write here my selected location";
   Future<void> fetchCurrentLocation() async {
     try {
       LocationPermission permission = await Geolocator.requestPermission();
@@ -625,6 +566,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final elementList = Provider.of<ProfileController>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -636,6 +578,13 @@ class _LocationScreenState extends State<LocationScreen> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
+            Text(
+              selectedLocation,
+              style: const TextStyle(
+                fontFamily: "nunito",
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             CustomTextField(
               controller: searchCont,
               label: "Search Place....",
@@ -643,7 +592,6 @@ class _LocationScreenState extends State<LocationScreen> {
               hintSize: 14,
               contentPadding: const EdgeInsets.only(bottom: 10, left: 10),
               height: 50,
-              maxLength: 10,
               filled: false,
               border: Border.all(color: AppColor.gray.withOpacity(0.3)),
               borderRadius: BorderRadius.circular(15),
@@ -665,7 +613,17 @@ class _LocationScreenState extends State<LocationScreen> {
                   return ListTile(
                     onTap: () {
                       if (suggestion['place_id'] != null) {
-                        fetchPlaceDetailsForSuggestion(suggestion['place_id']);
+                        fetchPlaceDetailsForSuggestion(suggestion['place_id']).then((details) {
+                          elementList.setDistrict(details['district']);
+                          setState(() {
+                            selectedLocation =
+                            "${suggestion['description']} (${details['district']}, ${details['pincode']})";
+                          });
+                        }).catchError((e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error fetching details: $e')),
+                          );
+                        });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Place ID not available')),
@@ -681,19 +639,47 @@ class _LocationScreenState extends State<LocationScreen> {
                       ),
                     ),
                   );
+                    ///
                   //   ListTile(
                   //   onTap: () {
-                  //     fetchPlaceDetailsForSuggestion(suggestion['place_id']);
+                  //     if (suggestion['place_id'] != null) {
+                  //       fetchPlaceDetailsForSuggestion(suggestion['place_id']);
+                  //     } else {
+                  //       ScaffoldMessenger.of(context).showSnackBar(
+                  //         SnackBar(content: Text('Place ID not available')),
+                  //       );
+                  //     }
                   //   },
                   //   leading: const Icon(Icons.location_on),
                   //   title: Text(
-                  //     suggestion['description'],
+                  //     suggestion['description'] ?? 'No description available',
                   //     style: const TextStyle(
                   //       fontFamily: "nunito",
                   //       fontWeight: FontWeight.w600,
                   //     ),
                   //   ),
                   // );
+                  ///
+                  //   ListTile(
+                  //   onTap: () {
+                  //     if (suggestion['place_id'] != null) {
+                  //       fetchPlaceDetailsForSuggestion(suggestion['place_id']);
+                  //     } else {
+                  //       ScaffoldMessenger.of(context).showSnackBar(
+                  //         SnackBar(content: Text('Place ID not available')),
+                  //       );
+                  //     }
+                  //   },
+                  //   leading: const Icon(Icons.location_on),
+                  //   title: Text(
+                  //     suggestion['description'] ?? 'No description available',
+                  //     style: const TextStyle(
+                  //       fontFamily: "nunito",
+                  //       fontWeight: FontWeight.w600,
+                  //     ),
+                  //   ),
+                  // );
+
                 },
               ),
             ),

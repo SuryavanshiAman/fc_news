@@ -1,4 +1,5 @@
 import 'package:fc_news/controller/home_controller.dart';
+import 'package:fc_news/controller/profile_controller.dart';
 import 'package:fc_news/generated/assets.dart';
 import 'package:fc_news/main.dart';
 import 'package:fc_news/res/color-const.dart';
@@ -24,13 +25,37 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+  @override
   Widget build(BuildContext context) {
     final homeController = Provider.of<HomeController>(context);
+    final address = Provider.of<ProfileController>(context);
     return Scaffold(
       appBar: AppBar(
         leading: Image.asset(Assets.imagesLogo),
         leadingWidth: width * 0.3,
+        // centerTitle: true,
+        // title: Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     // Icon(Icons.location_on),
+        //     Icon(Icons.location_on,color: AppColor.secondaryColor,size: 20,),
+        //     Text(
+        //       address.district,
+        //       style: TextStyle(
+        //           color: AppColor.black,
+        //           fontSize: 16,
+        //           fontWeight: FontWeight.w600,
+        //           fontFamily: 'NewYork'),
+        //     ),
+        //   ],
+        // ),
         actions: [
+
           Container(
               height: height * 0.05,
               width: width * 0.12,
@@ -68,6 +93,22 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ListView(
         padding: const EdgeInsets.all(15),
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Icon(Icons.location_on),
+              Icon(Icons.location_on,color: AppColor.secondaryColor,size: 20,),
+              Text(
+                address.district,
+                style: TextStyle(
+                    color: AppColor.black,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'NewYork'),
+              ),
+            ],
+          ),
+          Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

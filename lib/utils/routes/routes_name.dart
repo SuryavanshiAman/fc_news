@@ -13,6 +13,7 @@ class RoutesName{
   static const String policyScreen = '/policyScreen';
   static const String termsScreen = '/termsScreen';
   static const String notificationScreen = '/notificationScreen';
+  static const String locationScreen = '/locationScreen';
 
 
 }

@@ -87,6 +87,7 @@
 //     );
 //   }
 // }
+import 'package:fc_news/res/map/location.dart';
 import 'package:fc_news/view/bottom_nav_bar.dart';
 import 'package:fc_news/view/home/notification_screen.dart';
 import 'package:fc_news/view/home/view_news_screen.dart';
@@ -135,6 +136,8 @@ class Routers {
       return _customPageRoute(const TermsConditionScreen());
       case RoutesName.notificationScreen:
         return _customPageRoute(const NotificationScreen());
+      case RoutesName.locationScreen:
+        return _customPageRoute(const LocationScreen());
 
       default:
         return _customPageRoute(

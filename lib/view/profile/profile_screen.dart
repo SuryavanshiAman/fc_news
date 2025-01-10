@@ -22,11 +22,15 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
   String name = "News App";
   String mobile = "1111111111";
   @override
   void initState() {
     super.initState();
+   // Provider.of<ProfileController>(context,listen: false).fetchCurrentLocation(context);
+
+
   }
   Future<Data?> fetchUserData() async {
     UserViewModel userViewModel = UserViewModel();
@@ -140,13 +144,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     borderRadius: BorderRadius.circular(15),
                     fieldRadius: BorderRadius.circular(15),
                   ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.gray.withOpacity(0.3)),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      children: [
+                        Image(image: AssetImage( Assets.imagesLocation,),height: height*0.045,),
+                        SizedBox(
+                          width: width*0.74,
+                          child: Text(elementList.currentLocation,style: TextStyle(
+                              fontSize:15,
+                              // fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.normal,
+                              color: AppColor.gray)),
+                        )
+                      ],
+                    ),
+                  ),
                   GridView.builder(
+                    padding: EdgeInsets.zero,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, // Increase vertical spacing between items
-                          mainAxisExtent: 65,
-                          crossAxisSpacing: 20),
+                          mainAxisExtent: 60,
+                          crossAxisSpacing: 20
+                      ),
                       itemCount: elementList.elementList.length,
                       itemBuilder: (BuildContext context, index) {
                         final data = elementList.elementList[index];
@@ -194,6 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   CustomContainer(
                     alignment: Alignment.center,
                     height: height * 0.05,
+                    margin: EdgeInsets.only(top: height*0.03),
                     gradient: const LinearGradient(
                         colors: [AppColor.primaryColor, AppColor.secondaryColor],
                         begin: Alignment.topLeft,
