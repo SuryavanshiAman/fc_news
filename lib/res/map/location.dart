@@ -485,7 +485,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
         // Extract district and pincode
         for (var component in addressComponents) {
-          if (component['types'].contains('administrative_area_level_2')) {
+          if (component['types'].contains('administrative_area_level_3')) {
             district = component['long_name'];
           }
           if (component['types'].contains('postal_code')) {
@@ -626,7 +626,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Place ID not available')),
+                          const SnackBar(content: Text('Place ID not available')),
                         );
                       }
                     },

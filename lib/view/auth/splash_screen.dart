@@ -1,3 +1,4 @@
+import 'package:fc_news/controller/profile_controller.dart';
 import 'package:fc_news/generated/assets.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
@@ -18,12 +19,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-       // Future.delayed(const Duration(seconds: 3),(){
-       //   Navigator.pushReplacementNamed(context, RoutesName.loginScreen);
-       // });
-
       final splashServices = Provider.of<SplashServices>(context, listen: false);
       splashServices.checkAuthentication(context);
+      Provider.of<ProfileController>(context,listen: false).fetchCurrentLocation(context);
     });
 
   }

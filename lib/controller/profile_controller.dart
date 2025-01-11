@@ -12,7 +12,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart'as http;
 
 class ProfileController with ChangeNotifier{
+  bool _isLoading = false;
 
+  bool get isLoading => _isLoading;
+
+  setIsLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
   File? _image;
   File? get image => _image;
   final picker = ImagePicker();
@@ -49,34 +56,6 @@ class ProfileController with ChangeNotifier{
     notifyListeners();
   }
   List<ElementModel> elementList = [
-    // ElementModel(
-    //   image:Assets.imagesBank,
-    //   name: 'Bank Details',
-    //   onTap: (context){
-    //     Navigator.pushNamed(context, RoutesName.bankDetailsScreen);
-    //   }, ),
-    // ElementModel(
-    //     image:Assets.imagesSupport,
-    //     name: 'Support',
-    //     onTap: (context){
-    //       Launcher.openTelegram(context);
-    //     }),
-    // ElementModel(
-    //     image: Assets.imagesTeam,
-    //     name: 'Team',
-    //     onTap: (context) async{
-    //       UserViewModel userViewModel = UserViewModel();
-    //       String? userId = await userViewModel.getUser();
-    //       Launcher.launchURL(ApiUrl.team+userI);
-    //       // Navigator.pushNamed(context, RoutesName.myTeam);
-    //     }),
-    // ElementModel(
-    //     image: Assets.imagesKyc,
-    //     name: 'KYC',
-    //     onTap: (context){
-    //       Navigator.pushNamed(context, RoutesName.kycScreen);
-    //     }),
-
     ElementModel(
         image:Assets.iconAboutUs,
         name: 'About Us',
@@ -110,7 +89,94 @@ class ProfileController with ChangeNotifier{
 
 
   ];
+  List<dynamic> _suggestions = [];
+
+  List<dynamic> get suggestions => _suggestions;
+
+  setSuggestions(List<dynamic> value) {
+    _suggestions = value;
+    notifyListeners();
+  }
   static const String googleApiKey = "AIzaSyCOqfJTgg1Blp1GIeh7o8W8PC1w5dDyhWI";
+  Future<void> fetchSuggestions(String query) async {
+    if (query.isEmpty) return;
+    setIsLoading(false);
+    final url =
+        "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$query&key=$googleApiKey&components=country:IN";
+    print("Fetching suggestions: $url");
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final rawSuggestions = data['predictions'] as List;
+notifyListeners();
+        // Fetch additional details for each suggestion
+        List<Map<String, dynamic>> enrichedSuggestions = [];
+        for (var suggestion in rawSuggestions) {
+          final placeId = suggestion['place_id'];
+          final details = await fetchPlaceDetailsForSuggestion(placeId);
+          enrichedSuggestions.add({
+            'description': suggestion['description'],
+            'place_id': placeId, // Add the place_id here
+            'district': details['district'] ?? '',
+            'pincode': details['pincode'] ?? '',
+            'latitude': details['latitude'] ?? 0.0,
+            'longitude': details['longitude'] ?? 0.0,
+          });
+          notifyListeners();
+        }
+        setSuggestions(enrichedSuggestions);
+      } else {
+        throw Exception("Failed to load suggestions");
+      }
+    } catch (e) {
+      print("Error fetching suggestions: $e");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  Future<Map<String, dynamic>> fetchPlaceDetailsForSuggestion(String placeId) async {
+    final url =
+        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$googleApiKey";
+    print("Fetching place details: $url");
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final addressComponents = data['result']['address_components'];
+        final geometry = data['result']['geometry']['location'];
+
+        String district = '';
+        String pincode = '';
+        double latitude = geometry['lat'];
+        double longitude = geometry['lng'];
+
+        // Extract district and pincode
+        for (var component in addressComponents) {
+          if (component['types'].contains('administrative_area_level_3')) {
+            district = component['long_name'];
+          }
+          if (component['types'].contains('postal_code')) {
+            pincode = component['long_name'];
+          }
+        }
+
+        return {
+          'district': district,
+          'pincode': pincode,
+          'latitude': latitude,
+          'longitude': longitude,
+        };
+      } else {
+        throw Exception("Failed to fetch place details");
+      }
+    } catch (e) {
+      print("Error fetching place details: $e");
+      return {};
+    }
+  }
   Future<void> fetchCurrentLocation(context) async {
     try {
       LocationPermission permission = await Geolocator.requestPermission();
@@ -167,6 +233,7 @@ class ProfileController with ChangeNotifier{
       ));
     }
   }
+
 }
 class ElementModel{
   final String image;
