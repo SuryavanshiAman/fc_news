@@ -4,8 +4,8 @@ import 'package:fc_news/generated/assets.dart';
 import 'package:fc_news/main.dart';
 import 'package:fc_news/res/color-const.dart';
 import 'package:fc_news/res/custom_text_field.dart';
+import 'package:fc_news/res/map/location.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
-import 'package:fc_news/utils/utils.dart';
 import 'package:fc_news/view/home/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -84,130 +84,47 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Icon(Icons.location_on),
-              Visibility(
-                  visible: visible==true?false:true,
-                  child: Icon(Icons.location_on,color: AppColor.secondaryColor,size: 20,)),
-              Visibility(
-                visible: visible==true?false:true,
-                child: Text(
-                  address.district,
-                  style: TextStyle(
-                      color: AppColor.black,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'NewYork'),
-                ),
+              Icon(Icons.location_on,color: AppColor.secondaryColor,size: 20,),
+              Text(
+                address.district,
+                style: TextStyle(
+                    color: AppColor.black,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'NewYork'),
               ),
-              Visibility(
-                visible:visible==true?true:false ,
-                child: CustomTextField(
-                  controller: searchCont,
-                  label: "Search Place....",
-                  hintColor: AppColor.labelColor,
-                  hintSize: 14,
-                  width: width*0.9,
-                  contentPadding: const EdgeInsets.only(bottom: 10, left: 10),
-                  height: 50,
-                  filled: false,
-                  border: Border.all(color: AppColor.gray.withOpacity(0.3)),
-                  borderRadius: BorderRadius.circular(15),
-                  fieldRadius: BorderRadius.circular(15),
-                  onChanged: (String value) {
-                    address.fetchSuggestions(value);
-                  },
-                  suffix:   InkWell(
-                      onTap:(){
-                        showModalBottomSheet(
-                          elevation: 5,
-                          shape: const RoundedRectangleBorder(
-                            side: BorderSide(width: 2, color: Colors.white),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(35),
-                              topRight: Radius.circular(35),
-                            ),
-                          ),
-                          context: context,
-                          builder: (context) {
-                            return Column(
-                              children: [
-                                CustomTextField(
-                                  controller: searchCont,
-                                  label: "Search Place....",
-                                  hintColor: AppColor.labelColor,
-                                  hintSize: 14,
-                                  contentPadding: const EdgeInsets.only(bottom: 10, left: 10),
-                                  height: 50,
-                                  filled: false,
-                                  border: Border.all(color: AppColor.gray.withOpacity(0.3)),
-                                  borderRadius: BorderRadius.circular(15),
-                                  fieldRadius: BorderRadius.circular(15),
-                                  onChanged: (String value) {
-                                    address.fetchSuggestions(value);
-
-                                  },
-                                  suffix:  InkWell(
-                                      onTap: (){
-                                        address.fetchSuggestions(searchCont.text);
-                                      },
-                                      child: Icon(Icons.search,color: AppColor.secondaryColor,size: 20,)),
-                                ),
-                                Expanded(
-                                  child: Consumer<ProfileController>(
-                                    builder: (context, profileController, child) {
-                                      return ListView.builder(
-                                        itemCount: profileController.suggestions.length,
-                                        itemBuilder: (context, index) {
-                                          final suggestion = profileController.suggestions[index];
-                                          return ListTile(
-                                            onTap: () {
-                                              if (suggestion['place_id'] != null) {
-                                                profileController.fetchPlaceDetailsForSuggestion(suggestion['place_id']).then((details) {
-                                                  profileController.setDistrict(details['district']);
-                                                }).catchError((e) {
-                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                    SnackBar(content: Text('Error fetching details: $e')),
-                                                  );
-                                                });
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  const SnackBar(content: Text('Place ID not available')),
-                                                );
-                                              }
-                                            },
-                                            leading: const Icon(Icons.location_on),
-                                            title: Text(
-                                              profileController.district,
-                                              style: const TextStyle(
-                                                fontFamily: "nunito",
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-
-                      },
-                      child: Icon(Icons.search,color: AppColor.secondaryColor,size: 20,)),
-                ),
-              ),
+              // Visibility(
+              //   visible:visible==true?true:false ,
+              //   child: CustomTextField(
+              //     controller: searchCont,
+              //     label: "Search Place....",
+              //     hintColor: AppColor.labelColor,
+              //     hintSize: 14,
+              //     width: width*0.9,
+              //     contentPadding: const EdgeInsets.only(bottom: 10, left: 10),
+              //     height: 50,
+              //     filled: false,
+              //     border: Border.all(color: AppColor.gray.withOpacity(0.3)),
+              //     borderRadius: BorderRadius.circular(15),
+              //     fieldRadius: BorderRadius.circular(15),
+              //     onChanged: (String value) {
+              //       address.fetchSuggestions(value);
+              //     },
+              //     suffix:   InkWell(
+              //         onTap:(){
+              //           showLocationBottomSheet(context);
+              //         },
+              //         child: Icon(Icons.search,color: AppColor.secondaryColor,size: 20,)),
+              //   ),
+              // ),
               Spacer(),
-              Visibility(
-                visible: visible==true?false:true,
-                child: InkWell(
-                    onTap:(){
-                      setState(() {
-                        visible=true;
-                      });
-                    },
-                    child: Icon(Icons.search,color: AppColor.secondaryColor,size: 20,)),
-              ),
+              InkWell(
+                  onTap:(){
+                    setState(() {
+                      showLocationBottomSheet(context);
+                    });
+                  },
+                  child: Icon(Icons.search,color: AppColor.secondaryColor,size: 20,)),
             ],
           ),
 
