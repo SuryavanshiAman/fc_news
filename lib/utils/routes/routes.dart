@@ -114,7 +114,7 @@ class Routers {
       case RoutesName.loginScreen:
         return _customPageRoute(const LoginScreen());
       case RoutesName.verifyPage:
-        return _customPageRoute( VerifyPage(arguments:arguments.toString()
+        return _customPageRoute( VerifyPage(
         ));
       case RoutesName.registerScreen:
         return _customPageRoute(const RegisterScreen());

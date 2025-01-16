@@ -4,6 +4,7 @@ import 'package:fc_news/res/map/location.dart';
 import 'package:fc_news/test.dart';
 import 'package:fc_news/utils/routes/routes.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
+import 'package:fc_news/view_model/auth_view_model.dart';
 import 'package:fc_news/view_model/services/splash_services.dart';
 import 'package:fc_news/view_model/user_view_model.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserViewModel()),
         ChangeNotifierProvider(create: (_) => HomeController()),
         ChangeNotifierProvider(create: (_) => ProfileController()),
+        ChangeNotifierProvider(create: (_) => AuthViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

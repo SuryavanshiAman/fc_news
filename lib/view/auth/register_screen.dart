@@ -8,6 +8,7 @@ import 'package:fc_news/res/custom_text_field.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
 import 'package:fc_news/utils/toast.dart';
 import 'package:fc_news/view/auth/login_screen.dart';
+import 'package:fc_news/view_model/auth_view_model.dart';
 import 'package:fc_news/view_model/user_view_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final userPref = Provider.of<UserViewModel>(context,);
+    final register = Provider.of<AuthViewModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -184,15 +186,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }else if(_phoneController.text.length !=10){
                     showCustomSnackbar(context, "Please enter proper Phone no.", ContentType.warning);
                   }else{
-                    Data user = Data(userName: _nameController.text, number: _phoneController.text);
-                    int id = await DBHelper().insertUser(user);
-
-                    print("Inserted user ID: $id");
-                    userPref.saveUser(id.toString());
-                    int count = await DBHelper().getUserCount();
-                    print("Total users in the database: $count");
-                    Navigator.pushNamed(context, RoutesName.bottomNavBarPage);
-                    showCustomSnackbar(context, "Register Successfully.", ContentType.success);
+                    Map data=  {
+                      "name":_nameController.text,
+                      "phone":_phoneController.text,
+                    };
+                    register.registerApi(data, context);
+                    // Data user = Data(userName: _nameController.text, number: _phoneController.text);
+                    // int id = await DBHelper().insertUser(user);
+                    //
+                    // print("Inserted user ID: $id");
+                    // userPref.saveUser(id.toString());
+                    // int count = await DBHelper().getUserCount();
+                    // print("Total users in the database: $count");
+                    // Navigator.pushNamed(context, RoutesName.bottomNavBarPage);
+                    // showCustomSnackbar(context, "Register Successfully.", ContentType.success);
                   }
                 },
               ),

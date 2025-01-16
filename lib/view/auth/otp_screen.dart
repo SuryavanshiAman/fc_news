@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:fc_news/controller/profile_controller.dart';
@@ -13,15 +14,17 @@ import 'package:fc_news/res/dialog.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
 import 'package:fc_news/utils/toast.dart';
 import 'package:fc_news/view/home/home_screen.dart';
+import 'package:fc_news/view_model/auth_view_model.dart';
 import 'package:fc_news/view_model/user_view_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import '../../res/pinput/pinput.dart';
 
 class VerifyPage extends StatefulWidget {
-  final String? arguments;
-  const VerifyPage({super.key, required this.arguments});
+  // final String? arguments;
+  const VerifyPage({super.key, });
 
   @override
   State<VerifyPage> createState() => _VerifyPageState();
@@ -63,10 +66,24 @@ class _VerifyPageState extends State<VerifyPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final verifyOtpApi = Provider.of<AuthViewModel>(context);
-    // String argument = ModalRoute.of(context)!.settings.arguments.toString();
-    // print(argument);
+    // final aman= widget.arguments;
+    // final aman = widget.arguments; // Retrieve arguments
+    // if (aman is Map<String, dynamic>) {
+    //   final data = aman['data']; // Extract 'data'
+    //   final otp = aman['otp'];   // Extract 'otp'
+    //
+    //   print('Data: $data'); // Should print 7458946942
+    //   print('OTP: $otp');   // Should print 491046
+    // } else {
+    //   print('Arguments are not in the expected format');
+    // }
+   //  final Map<String, dynamic> arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+   // String phone=arguments['data'];
+   // String otp=arguments['otp'];
+   // print(otp.toString());
+   // print(otp);
     final userPref = Provider.of<UserViewModel>(context,);
+    final verify = Provider.of<AuthViewModel>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -98,7 +115,7 @@ class _VerifyPageState extends State<VerifyPage> {
               Row(
                 children: [
                   Text(
-                    'Enter OTP sent to ${widget.arguments}',
+                    'Enter OTP sent to ${7458946942}',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   InkWell(
@@ -218,7 +235,8 @@ class _VerifyPageState extends State<VerifyPage> {
                     showCustomSnackbar(context, "Please enter proper OTP.",
                         ContentType.warning);
                   } else {
-                    Data? existingUser = await DBHelper().getUserByNumber(widget.arguments.toString());
+                    verify.verifyOtpApi(7458946942, otpCon.text, context);
+                    Data? existingUser = await DBHelper().getUserByNumber(7458946942.toString());
                     userPref.saveUser(existingUser?.id.toString()??"");
                     if (existingUser != null) {
                       showDialog(

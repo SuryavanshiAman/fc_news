@@ -9,8 +9,10 @@ import 'package:fc_news/res/dialog.dart';
 import 'package:fc_news/utils/routes/routes_name.dart';
 import 'package:fc_news/utils/toast.dart';
 import 'package:fc_news/utils/utils.dart';
+import 'package:fc_news/view_model/auth_view_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'register_screen.dart';
 
@@ -25,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -175,6 +178,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     showCustomSnackbar(context, "Please enter proper Phone no.",
                         ContentType.warning);
                   } else {
+                    authViewModel.loading==false?
+                    authViewModel.sedOtpApi(_phoneController.text, context):
                     showDialog(
                       context: context,
                       barrierDismissible: false, // Prevent dismissing by tapping outside
@@ -183,11 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return LodingDialog( msg:"Sending OTP...");
                       },
                     );
-                    Future.delayed(const Duration(seconds: 2),(){
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, RoutesName.verifyPage,
-                          arguments: _phoneController.text);
-                    });
+
 
                     showCustomSnackbar(
                         context, "Otp Send Successfully", ContentType.success);
